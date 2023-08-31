@@ -1,0 +1,105 @@
+//Fichero fuente debe ser.cpp---------------------
+/*
+  Zone.cpp - Library for create air zones.
+  Created by Carlos M Martinez Pomares, August 28, 2023.
+  Released into the public domain.
+*/
+
+#include "Arduino.h"
+#include "Zone.h"
+#include "DHT.h"
+
+//DHT _dht(20,DHT11);
+//float _temperatureTarget;
+
+Zone::Zone(String name, int pinOpen, int pinClosed)
+{
+  _name = name;
+  _pinOpen = pinOpen;
+  _pinClosed = pinClosed;
+  //_pinSensor = pinSensor;
+  
+  pinMode(_pinOpen,OUTPUT);
+  pinMode(_pinClosed,OUTPUT);
+  
+  //DHT dht(_pinSensor,DHT11);
+  
+  
+  //_dht = dht;
+}
+
+void Zone::setTemperature(float temperatureTarget)
+{
+  if(temperatureTarget >= 16 && temperatureTarget <= 28)
+  {
+    _temperatureTarget = temperatureTarget;
+  }
+  else
+  {
+	_temperatureTarget = 25.5;
+  }
+	  
+}
+
+ Zone::getTemperature()
+{	
+  return _temperatureTarget;
+}
+
+void Zone::setStateDamp(bool state)
+{
+  _state = state;
+}
+
+bool Zone::getStateDamp()
+{
+  return _state;
+}
+
+void Zone::setName(String name)
+{
+  _name = name;
+}
+
+String Zone::getName()
+{	
+  return _name;
+}
+
+int Zone::getPinOpen()
+{
+  return _pinOpen;
+}
+
+int Zone::getPinClosed()
+{	
+  return _pinClosed;
+}
+
+/* int Zone::getPinSensor()
+{	
+  return _pinSensor;
+} */
+
+/* float Zone::getTemperatureSensor()
+{	
+  float _temperatureSensor = _dht.readTemperature();
+  return _temperatureSensor;
+}
+ */
+/* float Zone::getHumiditySensor()
+{	
+  float _humiditySensor = _dht.readHumidity();
+  return _humiditySensor;
+}
+
+float Zone::getHeatIndex()
+{	
+	float f = _dht.readTemperature(true);
+	float h = _dht.readHumidity();
+  float _heatIndex = _dht.computeHeatIndex(f, h);
+  float _heatIndexCelsius = (_heatIndex - 32) * 0.555;
+  return _heatIndexCelsius;
+} */
+
+
